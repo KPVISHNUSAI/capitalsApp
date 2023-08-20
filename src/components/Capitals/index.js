@@ -1,5 +1,7 @@
 import {Component} from 'react'
 
+import './index.css'
+
 const countryAndCapitalsList = [
   {
     id: 'NEW_DELHI',
@@ -35,14 +37,9 @@ class Capitals extends Component {
     activeId: countryAndCapitalsList[0].id,
   }
 
-  setCapital = countryId => {
-    this.setState({activeId: countryId})
-  }
-
-  findCountry = () => {
-    const {activeId} = this.state
-    const desh = countryAndCapitalsList[activeId].country
-    return desh
+  setCapital = event => {
+    const selectedId = event.target.value
+    this.setState({activeId: selectedId})
   }
 
   render() {
@@ -51,7 +48,23 @@ class Capitals extends Component {
     return (
       <div className="app-container">
         <div className="main-container">
-          <input type="dropdown" />
+          <h1>Countries and Capitals</h1>
+          <select
+            name="capitals"
+            id="capitals"
+            onChange={this.setCapital}
+            value={activeId}
+          >
+            {countryAndCapitalsList.map(each => (
+              <option key={each.id} value={each.id}>
+                {each.capitalDisplayText}
+              </option>
+            ))}
+          </select>
+          <label htmlFor="capitals">Is capital of which country?</label>
+          <h1 className="result">
+            {countryAndCapitalsList.find(item => item.id === activeId).country}
+          </h1>
         </div>
       </div>
     )
